@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QCloseEvent>
+#include <QSettings>
 
 namespace NeovimQt {
 
@@ -39,6 +40,11 @@ void MainWindow::init(NeovimConnector *c)
 	if (m_nvim->errorCause()) {
 		neovimError(m_nvim->errorCause());
 	}
+
+	QSettings s;
+	restoreGeometry(s.value("Window/Geometry").toByteArray());
+	setMinimumWidth(320);
+	setMinimumHeight(240);
 }
 
 QDockWidget* MainWindow::newDockWidgetFor(QWidget *w)
@@ -87,10 +93,17 @@ void MainWindow::reconnectNeovim()
 	m_errorWidget->setVisible(false);
 }
 
+void MainWindow::saveState() 
+{
+	QSettings s;
+	s.setValue("Window/Geometry", saveGeometry());
+}
+
 void MainWindow::closeEvent(QCloseEvent *ev)
 {
 	// Never unless the Neovim shell closes too
 	if (m_shell->close()) {
+		saveState();
 		QWidget::closeEvent(ev);
 	} else {
 		ev->ignore();

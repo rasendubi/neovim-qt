@@ -24,7 +24,9 @@ private slots:
 	void reconnectNeovim();
 private:
 	void init(NeovimConnector *);
-        NeovimConnector *m_nvim;
+	void saveState();
+
+	NeovimConnector *m_nvim;
 	ErrorWidget *m_errorWidget;
 	Shell *m_shell;
 };

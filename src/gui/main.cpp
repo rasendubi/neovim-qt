@@ -18,6 +18,8 @@ int main(int argc, char **argv)
 	QApplication app(argc, argv);
 	app.setApplicationDisplayName("Neovim");
 	app.setWindowIcon(QIcon(":/neovim.png"));
+	QApplication::setOrganizationName("neovim-qt");
+	QApplication::setApplicationName("neovim-qt");
 
 	// Load bundled fonts
 	if (QFontDatabase::addApplicationFont(":/DejaVuSansMono.ttf") == -1) {
